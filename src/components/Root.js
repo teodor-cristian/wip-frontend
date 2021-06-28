@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import HomePage from './HomePage';
-import BlogPage from './BlogPage';
+import HomePage from './HomePage/HomePage';
+import BlogPage from './BlogPage/BlogPage';
 import NotFoundPage from './NotFoundPage'
 
 class Root extends React.Component {

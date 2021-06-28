@@ -1,5 +1,5 @@
 import React from 'react';
-import { withStyles } from '@material-ui/styles';
+import './BlogPage.css';
 import PropTypes from 'prop-types';
 import ReactMarkdown from 'react-markdown'
 
@@ -8,7 +8,9 @@ export class BlogPage extends React.Component {
     super(props);
 
     this.state = {
-        blogPost: []
+        blogPost: [],
+        isLoading: true,
+        error: null
     };
 
   }
@@ -23,7 +25,8 @@ export class BlogPage extends React.Component {
       .then(
         (result) => {
           this.setState({
-            blogPost: result
+            blogPost: result,
+            isLoading: false
           });
         },
         (error) => {
@@ -37,31 +40,27 @@ export class BlogPage extends React.Component {
 
 
   render() {
-    const { classes } = this.props,
-      { blogPost } = this.state;
+    const { blogPost, isLoading, error } = this.state;
 
-    console.log(blogPost)
+    if (error) {
+      return <p>{error}</p>
+    }
+
     return (
-      <div className={classes.blogPageWrapper}>
+      <div className="blogPageWrapper">
         <h1>Blog page</h1>
+        {isLoading ?
+        <p>Loading...</p>
+        :
         <ReactMarkdown>{blogPost}</ReactMarkdown>
+        }
       </div>
     );
   }
 }
 
 BlogPage.propTypes = {
-  classes: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired
 };
 
-const styles = () => ({
-    blogPageWrapper: {
-      minHeight: '100vh',
-      width: '100%',
-      margin: '20px'
-    },
-});
-  
-
-export default withStyles(styles)(BlogPage);
+export default BlogPage;
